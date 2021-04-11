@@ -17,10 +17,10 @@ print("duration_in_sec=", duration_in_sec)
 print("frame_rate=", sample_rate)
 bit_rate = 16  # assumption , you can extract from mediainfo("test.wav") dynamically
 
-wav_file_size = (sample_rate * bit_rate * channel_count * duration_in_sec) / 25
+wav_file_size = (sample_rate * bit_rate * channel_count * duration_in_sec) / 20
 print("wav_file_size = ", wav_file_size)
 
-file_split_size = 25000000  # 10Mb OR 10, 000, 000 bytes
+file_split_size = 20000000  # 10Mb OR 10, 000, 000 bytes
 total_chunks = wav_file_size // file_split_size
 
 # Get chunk size by following method #There are more than one ofcourse
