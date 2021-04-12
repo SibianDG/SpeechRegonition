@@ -3,7 +3,7 @@ from pydub import AudioSegment
 from pydub.utils import make_chunks
 import math
 
-file = 'Annelies Verbeke – Het kortverhaal doorgelicht.flac'
+file = 'A Tour of Lacan\'s Graph of Desire.flac'
 
 myaudio = AudioSegment.from_file(file, "flac")
 channel_count = myaudio.channels  # Get channels

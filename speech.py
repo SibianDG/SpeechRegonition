@@ -6,7 +6,7 @@ DIR = './chunks'
 numberOfItems = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
 print("NumberOfFiles: ", numberOfItems)
 
-fileName = 'Annelies Verbeke – Het kortverhaal doorgelicht'
+fileName = 'A Tour of Lacan\'s Graph of Desire.flac'
 
 r = sr.Recognizer()
 
@@ -18,11 +18,11 @@ for i in range(numberOfItems):
         audio_file = r.record(source)
         print(f"Starting to convert chunck {i} of {numberOfItems} to text")
         try:
-            text = r.recognize_google(audio_data=audio_file, language="nl-be")
+            text = r.recognize_google(audio_data=audio_file, language="en-GB")
         except:
             print("trying Eng")
             try:
-                text = r.recognize_google(audio_data=audio_file, language="en-GB")
+                text = r.recognize_google(audio_data=audio_file, language="en-US")
             except:
                 print("a certain period was not recognized.")
                 text = "(a certain period was not recognized.)"
