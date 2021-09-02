@@ -4,30 +4,47 @@ from pydub.utils import make_chunks
 import math
 import os
 import speech_recognition as sr
+import re
 
 file = ''
 language1 = ''
 language2 = ''
+myaudio = ''
 
 
 def start():
     global file, language1, language2
-    file = input("Give the filename: ")
+
+    notCorrect = True
+    while notCorrect:
+        file = input("Give the filename: ")
+        try:
+            print("Checking if the file is good.")
+            AudioSegment.from_file(file, "flac")
+            notCorrect = False
+        except:
+            print("Bad file!")
+
     print("Choose 2 languages that are spoken in the audio file:\n"
           "Examples: Dutch (Belgium) = nl-BE, Dutch (Netherlands) = nl-NL\n"
           "British English = en-GB, American English = en-US\n"
           "French = fr-FR.")
-    language1 = input("Give languages 1: ")
-    if "-" not in language1:
-        print("try again")
-        exit(5)
+    regex = "[a-z]{2,3}-[A-Z]{2,4}"
+    notCorrect = True
+    while notCorrect:
+        language1 = input("Give languages 1: ")
+        if re.search(regex, language1) is None:
+            print("Give a correct language")
+        else:
+            notCorrect = False
+
     language2 = input("Give languages 2: ")
-    if "-" not in language2:
+    if re.search(regex, language2) is not None:
         language2 = ''
 
 
 def to_chunks():
-    global file, language1, language2
+    global file, language1, language2, myaudio
     print(file, ' to chunks')
     myaudio = AudioSegment.from_file(file, "flac")
     channel_count = myaudio.channels  # Get channels
@@ -65,6 +82,7 @@ def to_chunks():
         chunk_name = "chunks/chunk{0}.flac".format(i)
         print("exporting", chunk_name)
         chunk.export(chunk_name, format="flac")
+
 
 def speech_to_text():
     global file, language1, language2
