@@ -29,12 +29,11 @@ for i in range(numberOfItems):
 
         text += " "
 
-        print("Start writing to ", fileName)
-        file1 = open(fileName + ".txt", "a")
+        print("Start writing to ", fileName.replace("flac", "txt"))
+        file1 = open(fileName[:-2] + ".txt", "a")
         file1.write(text)
         file1.close()
         print("End writing")
 
 print("Done!")
 print()
-# print(text)
