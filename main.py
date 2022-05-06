@@ -20,10 +20,15 @@ def start():
         file = input("Give the filename: ")
         try:
             print("Checking if the file is good.")
-            AudioSegment.from_file(file, "flac")
+            #if file.endswith('.mp3'):
+            #    print("mp3 file detected")
+            #    audio = AudioSegment.from_mp3(file)
+            #    file = file.replace('.mp3', '.flac')
+            #    audio.export(file)
+            AudioSegment.from_mp3(file)
             notCorrect = False
-        except:
-            print("Bad file!")
+        except Exception as e:
+            print(f"Bad file!\nError: {e}")
 
     print("Choose 2 languages that are spoken in the audio file:\n"
           "Examples: Dutch (Belgium) = nl-BE, Dutch (Netherlands) = nl-NL\n"
@@ -46,7 +51,7 @@ def start():
 def to_chunks():
     global file, language1, language2, myaudio
     print(file, ' to chunks')
-    myaudio = AudioSegment.from_file(file, "flac")
+    myaudio = AudioSegment.from_mp3(file)
     channel_count = myaudio.channels  # Get channels
     sample_width = myaudio.sample_width  # Get sample width
     duration_in_sec = len(myaudio) / 1000  # Length of audio in sec
