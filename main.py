@@ -57,14 +57,14 @@ def to_chunks():
     duration_in_sec = len(myaudio) / 1000  # Length of audio in sec
     sample_rate = myaudio.frame_rate
 
-    print("sample_width=", sample_width)
-    print("channel_count=", channel_count)
+    #print("sample_width=", sample_width)
+    #print("channel_count=", channel_count)
     print("duration_in_sec=", duration_in_sec)
-    print("frame_rate=", sample_rate)
+    #print("frame_rate=", sample_rate)
     bit_rate = 16  # assumption , you can extract from mediainfo("test.wav") dynamically
 
     wav_file_size = (sample_rate * bit_rate * channel_count * duration_in_sec) / 20
-    print("wav_file_size = ", wav_file_size)
+    #print("wav_file_size = ", wav_file_size)
 
     file_split_size = 20000000  # 10Mb OR 10, 000, 000 bytes
     total_chunks = wav_file_size // file_split_size
@@ -84,7 +84,7 @@ def to_chunks():
         os.makedirs('chunks')
 
     for i, chunk in enumerate(chunks):
-        chunk_name = "chunks/chunk{0}.flac".format(i)
+        chunk_name = f"chunks/chunk{i}.flac"
         print("exporting", chunk_name)
         chunk.export(chunk_name, format="flac")
 
@@ -99,8 +99,7 @@ def speech_to_text():
     r = sr.Recognizer()
 
     for i in range(numberOfItems):
-        print(i)
-        chunkFile = './chunks/chunk' + str(i) + '.flac'
+        chunkFile = f'./chunks/chunk{str(i)}.flac'
         audio_file = sr.AudioFile(chunkFile)
         with audio_file as source:
             audio_file = r.record(source)
@@ -118,8 +117,8 @@ def speech_to_text():
 
             text += " "
 
-            print("Start writing to ", file.replace(".flac", ""), ".txt")
-            file1 = open(file.replace(".flac", "") + ".txt", "a")
+            print("Start writing to ", file.replace(".mp3", ""), ".txt")
+            file1 = open(file.replace(".mp3", "") + ".txt", "a")
             file1.write(text)
             file1.close()
             print("End writing")
@@ -127,7 +126,19 @@ def speech_to_text():
     print("Done!")
     print()
 
+def remove_chunks():
 
-start()
-to_chunks()
-speech_to_text()
+    uploads = os.listdir('./chunks/')
+    if len(uploads) > 0:
+        for file in uploads:
+            os.remove(f'./chunks/{file}')
+
+
+try:
+    start()
+    to_chunks()
+    speech_to_text()
+except Exception as e:
+    print(e)
+finally:
+    remove_chunks()
